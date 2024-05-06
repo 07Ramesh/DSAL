@@ -1,63 +1,64 @@
-import java.util.Scanner;
-import java.util.ArrayList;
-
-class Practical12{
-
-    public static void merge(int arr[],int low,int mid,int high){
-        int left = low;
-        int right = mid+1;
-        ArrayList<Integer> list = new ArrayList<>();
-        while(left <= mid && right <= high){
-            if(arr[left] <= arr[right]){
-                list.add(arr[left]);
-                left++;
-            }
-            else{
-                list.add(arr[right]);
-                right++;
-            }
-        }
-
-        while(left <= mid){
-            list.add(arr[left]);
-            left++;
-        }
-        while(right <= high){
-            list.add(arr[right]);
-            right++;
-        }
-
-        for(int i=low;i<=high;i++){
-            arr[i] = list.get(i-low);
-        }
+#include <iostream>
+#define max 100
+using namespace std;
+class mar
+{
+public:
+    int arr[max], temp, n, left, right, largest,z;
+    void create();
+    void hfy(int);
+};
+void mar::hfy(int i)
+{
+    right = 2 * i + 2;
+    left = 2 * i + 1;
+    largest = i;
+    if (left < n && arr[left] > arr[largest])
+    {
+        largest = left;
     }
-
-    public static void mergeSort(int arr[],int low,int high){
-        if(low == high){
-            return;
-        }
-        int mid = (low+high)/2;
-        mergeSort(arr, low, mid);
-        mergeSort(arr, mid+1, high);
-        merge(arr,low,mid,high);
+    if (right < n && arr[right] > arr[largest])
+    {
+        largest = right;
     }
-    public static void main(String[] args) {
-        int n;
-        System.out.println("Entre the length of array");
-        Scanner ip = new Scanner(System.in);
-        n = ip.nextInt();
-        int arr[] = new int[n];
-        System.out.println("Entre elements in the array");
-        for(int i=0;i<n;i++){
-            arr[i] = ip.nextInt();
-        }
-
-        mergeSort(arr,0,n-1);
-
-        System.out.println("Sorted array is :");
-        for(int i=0;i<n;i++){
-            System.out.print(arr[i]+"  ");
-        }
-        ip.close();
+    if (i != largest)
+    {
+        temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+        hfy(largest);
     }
+}
+void mar::create()
+{
+    cout << "Enter the number of students:=" << endl;
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Enter the marks for student no." << i + 1 << " :=" << endl;
+        cin >> arr[i];
+    }
+        for (int i = (n / 2) - 1; i >= 0; i--)
+        {
+            hfy(i);
+        }
+        z=n;
+    for(int i=n-1;i>=0;i--){
+        temp=arr[i];
+        arr[i]=arr[0];
+        arr[0]=temp;
+        n--;
+        hfy(0);
+    }     
+    cout<<"Maximum marks obtained in the subject:="<<endl;
+    cout<<arr[z-1]<<endl;
+    cout<<"Minimum marks obtained in the subject:="<<endl;
+    cout<<arr[0]<<endl;
+    
+}
+int main()
+{
+    mar ab;
+    ab.create();
+    return 0;
 }
